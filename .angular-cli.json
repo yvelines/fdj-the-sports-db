@@ -19,9 +19,18 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "assets/css/reset.css",
+        "assets/css/loading.css",
+        "assets/css/styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+
+      ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../src/styles/"
+        ]
+      },
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -54,7 +63,8 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
-    "component": {}
+    "styleExt": "scss",
+    "component": {
+    }
   }
 }
