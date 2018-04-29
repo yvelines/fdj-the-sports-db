@@ -18,15 +18,23 @@ export class TeamListComponent {
   constructor(private router: Router, private theSportsDbServcie: TheSportsDbServcie) {}
 
   onRecieveTermToSearch(recievedTerm: string) {
-    this.isServiceCalled = false;
+
+    this.setIsServiceCalled(false);
+
+    if (recievedTerm) {
       this.theSportsDbServcie.getTeamsByLeagueName(recievedTerm).subscribe((response: ITeam[]) => {
-        this.isServiceCalled = true;
         this.teams = response.length ? response : undefined;
+        this.setIsServiceCalled(true);
       });
+    }
   }
 
   seeTeamDetails(team: ITeam) {
     this.router.navigate(['/team-players', team.strTeam]);
+  }
+
+  private setIsServiceCalled(value: boolean) {
+    this.isServiceCalled = value;
   }
 
 }

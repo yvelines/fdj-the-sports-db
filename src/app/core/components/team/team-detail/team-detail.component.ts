@@ -12,8 +12,7 @@ import { TheSportsDbServcie } from '../../../services/the-sportsdb.service';
 })
 export class TeamDetailComponent implements OnInit, OnDestroy {
 
-
-  public players: Array<IPlayer>;
+  public players: IPlayer[];
   public teamDetailPlayers: IPlayer[];
 
   private sub: Subscription;

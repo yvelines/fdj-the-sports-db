@@ -5,8 +5,14 @@
 <ng-template #displayTeams>
     <mat-card *ngIf="teams">
         <mat-list >
-           <mat-list-item  *ngFor="let team of teams"   (click)="seeTeamDetails(team);">
-            <img mat-list-avatar [src]="team.strTeamBadge" [alt]="team.strTeam">
+           <mat-list-item
+                *ngFor="let team of teams"
+                (click)="seeTeamDetails(team);">
+            <img
+              mat-list-avatar
+              [src]="team.strTeamBadge"
+              [alt]="team.strTeam"
+             >
             <h3 mat-line>{{team.strTeam}}</h3>
           </mat-list-item>
         </mat-list>
