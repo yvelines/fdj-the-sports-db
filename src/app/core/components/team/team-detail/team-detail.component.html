@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-list>
+     <mat-list-item  *ngFor="let player of teamDetailPlayers">
+      <img mat-list-avatar [src]="player.strThumb" [alt]="player.strPlayer">
+      <h3 mat-line>{{player.strPlayer}}</h3>
+      <div mat-line>
+        <div>{{player.strPosition}}</div>
+        <div *ngIf="player.dateBorn !== 'Invalid Date'">{{player.dateBorn | date}}</div>
+        <div>{{player.strSigning}}</div>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

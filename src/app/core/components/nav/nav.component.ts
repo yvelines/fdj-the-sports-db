@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ITeam } from '../../model/iteam.model';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -8,10 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  @Output()
+  dataTeamsNames: EventEmitter<Observable<Array<ITeam>> | any[]> = new EventEmitter<Observable<Array<ITeam>> | any[]>();
+
+
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  onRecieveTeamsData(recieveTeams: ITeam[]) {
+    this.dataTeamsNames.emit(recieveTeams);
   }
 
 }
