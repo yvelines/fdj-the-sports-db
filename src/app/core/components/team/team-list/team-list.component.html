@@ -1,11 +1,14 @@
-<app-nav (termToSearch)="onRecieveTermToSearch($event)"></app-nav>
-
+<app-nav (termToSearch)="onRecieveTermToSearch($event)"
+          [termSearched]="termForSearch">
+</app-nav>
 
 <ng-container *ngIf="teams; then displayTeams else nothingFound"></ng-container>
 <ng-template #displayTeams>
-    <mat-card *ngIf="teams">
-        <mat-list >
+    <mat-card *ngIf="teams"  fxLayoutAlign="center">
+        <mat-list>
            <mat-list-item
+                fxLayoutAlign="left"
+                class="pointer"
                 *ngFor="let team of teams"
                 (click)="seeTeamDetails(team);">
             <img

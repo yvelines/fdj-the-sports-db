@@ -5,7 +5,8 @@ import { TeamDetailComponent } from '../core/components/team/team-detail/team-de
 import { TeamListComponent } from '../core/components/team/team-list/team-list.component';
 
 const routes: Routes = [
-  {path: '', component: TeamListComponent },
+  {path: '', redirectTo: 'search', pathMatch: 'full'},
+  {path: 'search', component: TeamListComponent },
   {path: 'team-players/:name', component: TeamDetailComponent },
   {path: '**', redirectTo: '/'}
 ];

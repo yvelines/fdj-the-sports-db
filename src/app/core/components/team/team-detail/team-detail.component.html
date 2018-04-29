@@ -1,9 +1,9 @@
-<mat-card>
+<mat-card fxLayoutAlign="center">
   <div class="button-row">
      <button mat-raised-button color="primary" (click)="backToTeamlist()">Back</button>
   </div>
   <mat-list>
-     <mat-list-item  *ngFor="let player of teamDetailPlayers">
+     <mat-list-item  *ngFor="let player of teamDetailPlayers" fxLayoutAlign="left">
       <img
           mat-list-avatar
           [src]="player.strThumb"

@@ -15,14 +15,16 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
   public players: IPlayer[];
   public teamDetailPlayers: IPlayer[];
 
-  private sub: Subscription;
+  private subParams: Subscription;
+  private termOfSearch: string;
 
   constructor(private theSportsDbServcie: TheSportsDbServcie,
               private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe( (params) => {
+    this.subParams = this.route.params.subscribe( (params) => {
+      this.termOfSearch = params['league'];
       this.theSportsDbServcie.getAllPlayersByTeam(params['name']).subscribe((response: IPlayer[]) => {
           this.teamDetailPlayers = response;
       });
@@ -30,11 +32,11 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.subParams.unsubscribe();
   }
 
   backToTeamlist() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/search', {league: this.termOfSearch}]);
   }
 
   isValidDate(date: any) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -23,6 +23,13 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   private searchTerms = new Subject<string>();
   private sub: Subscription;
 
+  @Input()
+  set termSearched(value: string) {
+    if (!this.leagueName) {
+      this.leagueName = value;
+    }
+  }
+
   @Output()
   termToSearch: EventEmitter<string> = new EventEmitter<string>();
 
@@ -30,7 +37,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.searchTerms.pipe(
-      debounceTime(300),
+      debounceTime(500),
       distinctUntilChanged()
     ).subscribe((term: string) => {
         this.termToSearch.emit(term);
@@ -43,6 +50,11 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   searchTeam(leagueName: string) {
     this.searchTerms.next(leagueName);
+  }
+
+  resetSearch() {
+    this.leagueName = '';
+    this.searchTerms.next(this.leagueName);
   }
 
 }

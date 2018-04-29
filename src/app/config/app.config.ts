@@ -7,7 +7,7 @@ export let APP_CONFIG = new InjectionToken('app.config');
 
 const API_ENDPOINT = `https://www.thesportsdb.com/api/v1/json/`;
 
-export const AppConfig = (apiKey: number): IAppConfig => {
+export function AppConfig(apiKey: number) {
    return {
       endpoints: {
         // Search for all players from team
@@ -17,4 +17,4 @@ export const AppConfig = (apiKey: number): IAppConfig => {
       },
       apiKey: apiKey
     };
- };
+ }
