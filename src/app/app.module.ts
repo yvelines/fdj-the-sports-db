@@ -11,6 +11,8 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './routing/app-routing.module';
 import { reducers } from './store/reducers';
 
+ import 'hammerjs';
+
 @NgModule({
   declarations: [
     AppComponent
