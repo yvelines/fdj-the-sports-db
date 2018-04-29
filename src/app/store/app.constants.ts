@@ -1,0 +1,1 @@
+export const SET_TERM_OF_SEARCH = 'SET_TERM_OF_SEARCH';

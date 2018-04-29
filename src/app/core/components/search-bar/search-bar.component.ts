@@ -1,14 +1,13 @@
-import { Component, OnInit, EventEmitter, Output, OnDestroy, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { ITeam } from '../../model/iteam.model';
-import { TheSportsDbServcie } from '../../services/the-sportsdb.service';
-import { startWith, map, debounceTime, distinctUntilChanged, switchMap, catchError, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { Subscription } from 'rxjs/Subscription';
+
+import { TermOfSearchState } from '../../../store/app.states';
+import * as searchReducer from '../../../store/search.reducer';
+import { TheSportsDbServcie } from '../../services/the-sportsdb.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -33,12 +32,22 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   @Output()
   termToSearch: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private theSportsDbServcie: TheSportsDbServcie, private router: Router) {}
+  constructor(private theSportsDbServcie: TheSportsDbServcie,
+              private router: Router,
+              private store: Store<TermOfSearchState>
+            ) {
+              const termOfSearch$ =  store.select(searchReducer.getTermOfSearch);
+              termOfSearch$.subscribe((termOfSearch) => {
+                this.leagueName  = termOfSearch;
+              });
+  }
 
   ngOnInit(): void {
     this.sub = this.searchTerms.pipe(
+
       debounceTime(500),
       distinctUntilChanged()
+
     ).subscribe((term: string) => {
         this.termToSearch.emit(term);
     });
