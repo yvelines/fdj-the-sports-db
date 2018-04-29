@@ -9,6 +9,8 @@ import { AppConfig as appConfig } from './config/app.config';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './routing/app-routing.module';
 
+ import 'hammerjs';
+
 @NgModule({
   declarations: [
     AppComponent
