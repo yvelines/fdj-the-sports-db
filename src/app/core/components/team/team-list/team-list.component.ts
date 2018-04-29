@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ITeam } from '../../../model/iteam.model';
+import { TheSportsDbServcie } from '../../../services/the-sportsdb.service';
 
 
 @Component({
@@ -12,11 +13,16 @@ import { ITeam } from '../../../model/iteam.model';
 export class TeamListComponent {
 
   public teams: ITeam[];
+  isServiceCalled: boolean;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private theSportsDbServcie: TheSportsDbServcie) {}
 
-  onRecieveTeamsData(recievedTeams: ITeam[]) {
-      this.teams = recievedTeams;
+  onRecieveTermToSearch(recievedTerm: string) {
+    this.isServiceCalled = false;
+      this.theSportsDbServcie.getTeamsByLeagueName(recievedTerm).subscribe((response: ITeam[]) => {
+        this.isServiceCalled = true;
+        this.teams = response.length ? response : undefined;
+      });
   }
 
   seeTeamDetails(team: ITeam) {

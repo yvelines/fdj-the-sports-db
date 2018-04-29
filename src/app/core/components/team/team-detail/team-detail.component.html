@@ -1,11 +1,19 @@
 <mat-card>
+  <div class="button-row">
+     <button mat-raised-button color="primary" (click)="backToTeamlist()">Back</button>
+  </div>
   <mat-list>
      <mat-list-item  *ngFor="let player of teamDetailPlayers">
-      <img mat-list-avatar [src]="player.strThumb" [alt]="player.strPlayer">
+      <img
+          mat-list-avatar
+          [src]="player.strThumb"
+          [alt]="player.strPlayer"
+          onError="this.src='../../../../../assets/images/mrx.png';"
+      >
       <h3 mat-line>{{player.strPlayer}}</h3>
       <div mat-line>
         <div>{{player.strPosition}}</div>
-        <div *ngIf="player.dateBorn !== 'Invalid Date'">{{player.dateBorn | date}}</div>
+        <div *ngIf="isValidDate(player.dateBorn)">{{player.dateBorn | date}}</div>
         <div>{{player.strSigning}}</div>
       </div>
     </mat-list-item>

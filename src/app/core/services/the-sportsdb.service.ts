@@ -18,8 +18,7 @@ export class TheSportsDbServcie {
   private arrayOfPlayers: Array<IPlayer>;
 
   constructor(@Inject(AppConfigService) private config, private http: HttpClient) {
-    this.arrayOfTeams = [];
-    this.arrayOfPlayers = [];
+    this.resetArraysOfData();
   }
 
   private handleError(error: any) {
@@ -29,15 +28,16 @@ export class TheSportsDbServcie {
     return Observable.throw(error || 'backend server error');
   }
 
-  private mapToTeam(team: Team): Team {
+  private mapToTeam(team: ITeam): ITeam {
       return new Team(team.strTeam, team.strTeamBadge);
   }
 
-  private mapToPlayer(player: Player): Player {
+  private mapToPlayer(player: IPlayer): IPlayer {
     return new Player(player.strPlayer, player.strPosition, new Date(player.dateBorn), player.strSigning, player.strThumb);
   }
 
    getTeamsByLeagueName(nameleague: string): Observable<ITeam[]> {
+    this.resetArraysOfData();
     return this.http.get(`${this.config.endpoints.getAllTeamsByLeagueName}${nameleague}`)
       .pipe(
           map((response: {teams: Array<any>}) => {
@@ -46,13 +46,14 @@ export class TheSportsDbServcie {
                 this.arrayOfTeams.push(this.mapToTeam(team));
               });
             }
-            return of(this.arrayOfTeams);
+            return this.arrayOfTeams;
           }),
           catchError(error => this.handleError(error))
       );
   }
 
   getAllPlayersByTeam(teamName: string): Observable<IPlayer[]> {
+    this.resetArraysOfData();
     return this.http.get(`${this.config.endpoints.getAllPlayersByTeamName}${teamName}`)
     .pipe(
         map((response: {player: Array<any>}) => {
@@ -65,7 +66,11 @@ export class TheSportsDbServcie {
         }),
         catchError(error => this.handleError(error))
     );
+  }
 
+  private resetArraysOfData() {
+    this.arrayOfTeams = [];
+    this.arrayOfPlayers = [];
   }
 
 }

@@ -8,20 +8,13 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss']
 })
-export class NavComponent implements OnInit {
+export class NavComponent {
 
   @Output()
-  dataTeamsNames: EventEmitter<Observable<Array<ITeam>> | any[]> = new EventEmitter<Observable<Array<ITeam>> | any[]>();
+  termToSearch: EventEmitter<string> = new EventEmitter<string>();
 
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-  onRecieveTeamsData(recieveTeams: ITeam[]) {
-    this.dataTeamsNames.emit(recieveTeams);
+  onRecieveTermToSearch(term: string) {
+    this.termToSearch.emit(term);
   }
 
 }
