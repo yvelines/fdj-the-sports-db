@@ -2,15 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 
 import { IAppConfig } from '../config/iapp.config';
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './components/nav/nav.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { TeamListComponent } from './components/team/team-list/team-list.component';
-import { AppConfigService } from './services/the-sportsdb-config.service';
-import { TheSportsDbServcie } from './services/the-sportsdb.service';
-import { TeamDetailComponent } from './components/team/team-detail/team-detail.component';
+import * as fromServices from './services';
+import { AppConfigService } from './services';
+import { TeamItemComponent } from './components/team/team-item/team-item.component';
+
+import { reducers } from '../store';
+import { TeamComponent } from './containers/team/team.component';
 
 @NgModule({
   imports: [
@@ -19,22 +23,25 @@ import { TeamDetailComponent } from './components/team/team-detail/team-detail.c
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
+    StoreModule.forFeature('soccer', reducers )
   ],
   exports: [
     NavComponent,
     SearchBarComponent,
     TeamListComponent,
-    TeamDetailComponent
+    TeamItemComponent,
+    TeamComponent,
   ],
   declarations: [
     NavComponent,
     SearchBarComponent,
     TeamListComponent,
-    TeamDetailComponent
+    TeamItemComponent,
+    TeamComponent
 
   ],
   providers: [
-    TheSportsDbServcie
+    ...fromServices.services
   ]
 })
 
@@ -49,7 +56,6 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        TheSportsDbServcie,
         {
           provide: AppConfigService,
           useValue: config
@@ -57,5 +63,4 @@ export class CoreModule {
       ]
     };
   }
-
 }

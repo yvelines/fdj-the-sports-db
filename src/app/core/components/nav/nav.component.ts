@@ -1,7 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ITeam } from '../../model/iteam.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import * as fromStore from '../../../store';
+import { SetTermOfSearch } from '../../../store/actions/nav-bar.action';
+import { SoccerState } from './../../../store/reducers';
 
 @Component({
   selector: 'app-nav',
@@ -16,8 +19,16 @@ export class NavComponent {
   @Input()
   termSearched: string;
 
+  termOfSearch$: Observable<String>;
+
+  constructor(private store: Store<fromStore.SoccerState>) {
+    this.termOfSearch$ =  this.store.select(fromStore.getTermOfsearch));
+  }
+
   onRecieveTermToSearch(term: string) {
-    this.termToSearch.emit(term);
+    // todo dispatch une action pour  setter dans le store le term de recherche
+    this.store.dispatch(new SetTermOfSearch(term));
+    // this.termToSearch.emit(term);
   }
 
 }

@@ -1,26 +1,5 @@
-<app-nav (termToSearch)="onRecieveTermToSearch($event)"
-          [termSearched]="termForSearch">
-</app-nav>
-
-<ng-container *ngIf="teams; then displayTeams else nothingFound"></ng-container>
-<ng-template #displayTeams>
-    <mat-card *ngIf="teams"  fxLayoutAlign="center">
-        <mat-list>
-           <mat-list-item
-                fxLayoutAlign="left"
-                class="pointer"
-                *ngFor="let team of teams"
-                (click)="seeTeamDetails(team);">
-            <img
-              mat-list-avatar
-              [src]="team.strTeamBadge"
-              [alt]="team.strTeam"
-             >
-            <h3 mat-line>{{team.strTeam}}</h3>
-          </mat-list-item>
-        </mat-list>
-      </mat-card>
-</ng-template>
-<ng-template #nothingFound>
-<span *ngIf="isServiceCalled">Nothing found!</span>
-</ng-template>
+<mat-card *ngIf="teams"  fxLayoutAlign="center">
+  <mat-list>
+      <app-item-team  *ngFor="let team of (teams)" [team]="team"  ></app-item-team>
+  </mat-list>
+</mat-card>

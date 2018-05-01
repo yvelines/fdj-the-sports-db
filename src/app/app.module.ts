@@ -1,3 +1,5 @@
+import 'hammerjs';
+
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,9 +11,6 @@ import { AppComponent } from './app.component';
 import { AppConfig as appConfig } from './config/app.config';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './routing/app-routing.module';
-import { reducers } from './store/reducers';
-
- import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import { reducers } from './store/reducers';
     HttpClientModule,
     CoreModule.forRoot(appConfig(environment.apiKey)),
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot({}),
   ],
   providers: [],
   bootstrap: [

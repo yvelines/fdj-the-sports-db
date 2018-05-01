@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { IPlayer } from '../../../model/iplayer.model';
-import { TheSportsDbServcie } from '../../../services/the-sportsdb.service';
+import { IPlayer } from '../../../..//models';
+import { PlayerServcie } from '../../../services';
 
 @Component({
   selector: 'app-team-detail',
@@ -18,14 +18,14 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
   private subParams: Subscription;
   private termOfSearch: string;
 
-  constructor(private theSportsDbServcie: TheSportsDbServcie,
+  constructor(private playerServcie: PlayerServcie,
               private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit(): void {
     this.subParams = this.route.params.subscribe( (params) => {
       this.termOfSearch = params['league'];
-      this.theSportsDbServcie.getAllPlayersByTeam(params['name']).subscribe((response: IPlayer[]) => {
+      this.playerServcie.getAllPlayersByTeam(params['name']).subscribe((response: IPlayer[]) => {
           this.teamDetailPlayers = response;
       });
    });
