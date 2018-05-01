@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { IPlayer } from '../../../..//models';
-import { PlayerServcie } from '../../../services';
+import { IPlayer } from '../../../models';
+import { PlayerServcie } from '../../services';
 
 @Component({
   selector: 'app-team-detail',

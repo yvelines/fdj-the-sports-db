@@ -1,3 +1,5 @@
+import { getTeamsLoaded, getTeamsData } from './../../../store/reducers/index';
+import { getTeamsLoading } from './../../../store/reducers/teams.reducer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -6,17 +8,21 @@ import { ITeam } from '../../../models';
 import { TeamServcie } from '../../services';
 import { Subscription } from 'rxjs/Subscription';
 import * as fromStore from '../../../store';
+import { LoadTeams, ResetTeamsData } from '../../../store';
+import { skip } from 'rxjs/operators';
 
 
 @Component({
   selector: 'app-team',
   template: `
-  <ng-container *ngIf="teams; then displayTeams else nothingFound"></ng-container>
-  <ng-template #displayTeams>
-    <app-team-list [teams]="teams"></app-team-list>
+  <ng-container *ngIf="loading; then loadingData; else loadedData"></ng-container>
+  <ng-template #loadedData>
+      <app-team-list *ngIf="teams.length > 0"
+          [teams]="teams">
+    </app-team-list>
   </ng-template>
-  <ng-template #nothingFound>
-  <span *ngIf="isServiceCalled">Nothing found!</span>
+  <ng-template #loadingData>
+    <span>loading....</span>
   </ng-template>
   `,
 })
@@ -25,6 +31,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   public teams: ITeam[];
   public isServiceCalled: boolean;
   public termForSearch: string;
+  public loading: boolean;
 
   private subParams: Subscription;
 
@@ -34,8 +41,8 @@ export class TeamComponent implements OnInit, OnDestroy {
               private store: Store<fromStore.SoccerState>) {}
 
 
-
   ngOnInit(): void {
+
     this.subParams = this.route.params.subscribe( (params) => {
       this.termForSearch = params['league'];
       if (this.termForSearch) {
@@ -43,9 +50,25 @@ export class TeamComponent implements OnInit, OnDestroy {
       }
    });
 
-    this.store.select(fromStore.getTermOfsearch).subscribe((term: string) => {
-      this.getTeamsByLeagueName(term);
-    });
+    this.store.select(fromStore.getTermOfsearch)
+      .pipe(skip(1))
+      .subscribe((term: string) => {
+          if (term) {
+            this.store.dispatch(new LoadTeams());
+          } else {
+            this.store.dispatch(new ResetTeamsData([]));
+          }
+       });
+
+    this.store.select(fromStore.getTeamsLoading)
+      .subscribe((isLoading: boolean) => {
+         this.loading = isLoading;
+      });
+
+    this.store.select(fromStore.getTeamsData)
+      .subscribe((data: ITeam[]) => {
+          this.teams = data;
+      });
   }
 
   ngOnDestroy(): void {

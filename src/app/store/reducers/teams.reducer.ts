@@ -30,6 +30,7 @@ export function reducer (
     case fromActions.LOAD_TEAMS_SUCCESS: {
       return {
         ...state,
+        data: action.payload,
         loading: false,
         loaded: true
       };
@@ -43,7 +44,21 @@ export function reducer (
       };
     }
 
+    case fromActions.RESET_TEAMS_DATA: {
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+        loaded: false
+      };
+    }
+
+
     default:
       return state;
   }
 }
+
+export const getTeamsLoading = (state: TeamState) => state.loading;
+export const getTeamsLoaded = (state: TeamState) => state.loaded;
+export const getTeamsData = (state: TeamState) => state.data;

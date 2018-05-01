@@ -9,5 +9,4 @@ export class SetTermOfSearch implements Action {
   constructor(public payload: any) {}
 }
 
-
 export type NavBarAction = SetTermOfSearch;

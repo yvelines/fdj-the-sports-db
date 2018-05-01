@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { ITeam } from './../../../../models';
 
 @Component({
   selector: 'app-item-team',
   templateUrl: './team-item.component.html',
-  styleUrls: ['./team-item.component.scss']
+  styleUrls: ['./team-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TeamItemComponent {
 

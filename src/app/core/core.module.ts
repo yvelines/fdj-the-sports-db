@@ -6,15 +6,16 @@ import { StoreModule } from '@ngrx/store';
 
 import { IAppConfig } from '../config/iapp.config';
 import { SharedModule } from '../shared/shared.module';
-import { NavComponent } from './components/nav/nav.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { TeamListComponent } from './components/team/team-list/team-list.component';
 import * as fromServices from './services';
 import { AppConfigService } from './services';
 import { TeamItemComponent } from './components/team/team-item/team-item.component';
 
-import { reducers } from '../store';
+import { reducers, effects } from '../store';
 import { TeamComponent } from './containers/team/team.component';
+import { NavComponent } from './containers/nav/nav.component';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { TeamComponent } from './containers/team/team.component';
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('soccer', reducers )
+    StoreModule.forFeature('soccer', reducers ),
+    EffectsModule.forFeature(effects)
   ],
   exports: [
     NavComponent,

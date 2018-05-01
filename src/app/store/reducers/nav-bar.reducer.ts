@@ -2,11 +2,11 @@ import * as fromActions from '../actions/nav-bar.action';
 import { ITeam } from '../../models';
 
 export interface SearchBarState {
-  termOfSearch: string;
+  term: string;
 }
 
 export const initialState: SearchBarState = {
-  termOfSearch: 'Ai caramba',
+  term: undefined,
 };
 
 
@@ -19,7 +19,7 @@ export function reducer (
     case fromActions.SET_TERM_OF_SEARH: {
       return {
         ...state,
-        termOfSearch: action.payload
+        term: action.payload
       };
     }
 
@@ -28,4 +28,5 @@ export function reducer (
   }
 }
 
-export const getTermOfSearch = (state: SearchBarState) => state.termOfSearch;
+export const getTerm = (state: SearchBarState) => state.term;
+
