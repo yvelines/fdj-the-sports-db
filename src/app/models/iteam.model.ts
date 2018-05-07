@@ -1,4 +1,4 @@
 export interface ITeam {
-  strTeam: string;
-  strTeamBadge: string;
+  strTeam?: string;
+  strTeamBadge?: string;
 }

@@ -1,11 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { ITeam, Team } from '../../models';
 import { AppConfigService } from './config.service';
 import * as utils from './utils';
+
+interface ResponseObj  {
+  [teams: string]: ITeam[];
+}
+
 
 @Injectable()
 export class TeamServcie {
@@ -22,12 +27,15 @@ export class TeamServcie {
 
   getTeamsByLeagueName(nameleague: string): Observable<ITeam[]> {
     this.resetData();
-    return this.http.get(`${this.config.endpoints.getAllTeamsByLeagueName}${nameleague}`)
+    return this.http.get<ResponseObj>(`${this.config.endpoints.getAllTeamsByLeagueName}${nameleague}`)
       .pipe(
-          map((response: {teams: any[]}) => {
+          tap(console.log),
+          map((response: ResponseObj) => {
+
             if (response.teams) {
-              response.teams.forEach((team: ITeam) => {
-                this.teams.push(this.mapToTeam(team));
+              response.teams.forEach((team) => {
+                // this.teams.push(this.mapToTeam(team));
+                this.teams.push((({ strTeam, strTeamBadge}) => ({ strTeam, strTeamBadge}))(team));
               });
             }
             return this.teams;
